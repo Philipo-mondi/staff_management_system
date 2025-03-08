@@ -2,13 +2,10 @@
 include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Capture incoming data
     $name = $_POST["name"] ?? null;
     $id_number = $_POST["id_number"] ?? null;
     $country = $_POST["country"] ?? null;
     $language_spoken = $_POST["language_spoken"] ?? null;
-
-    // Debug: Print received data (Check console for this response)
     error_log("Received: Name=$name, ID=$id_number, Country=$country, Language=$language_spoken");
 
     if ($name && $id_number && $country && $language_spoken) {
