@@ -56,20 +56,20 @@
         #logout {
             width: 120px;
             padding: 10px;
-            background: #dc3545 !important; /* Red color for logout */
+            background: #dc3545 !important; 
             border: none;
             color: white;
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
             transition: background 0.3s ease;
-            margin-top: 20px; /* Adds space above */
-            display: block; /* Ensures correct positioning */
+            margin-top: 20px; 
+            display: block; 
             margin-left: 450px;
         }
 
         #logout:hover {
-            background: #c82333 !important; /* Darker red on hover */
+            background: #c82333 !important; 
         }
         @media (max-width: 768px){
      #logout {
@@ -78,23 +78,23 @@
         }
         @media (max-width: 480px) {
             #logout {
-        font-size: 14px; /* Smaller button text */
+        font-size: 14px; 
             }
         }
         }
 
     </style>
     <script>
-        // Check if the user is logged in
+      
         fetch("http://localhost/staff_management/check_session.php")
         .then(response => response.json())
         .then(data => {
             if (!data.loggedIn) {
-                window.location.href = "login.html"; // Redirect if not logged in
+                window.location.href = "login.html"; 
             }
         });
 
-        // Logout function
+       
         document.getElementById("logout").addEventListener("click", function() {
             fetch("http://localhost/staff_management/logout.php")
             .then(() => window.location.href = "login.html");
