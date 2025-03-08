@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Staff Management</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Use the same CSS file -->
+    <link rel="stylesheet" href="styles.css"> 
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,12 +20,12 @@
             padding: 30px 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 350px; /* Set a fixed width */
+            width: 350px; 
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Center contents inside */
+            justify-content: center; 
         }
 
 
@@ -77,7 +77,7 @@
         <p class="error" id="error-msg"></p>
     </div>
     <style>
-                /* Centering the login form */
+                
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -88,7 +88,7 @@
             margin: 0;
         }
 
-        /* Styling the login container */
+        
         .login-form {
             background: white;
             padding: 25px;
@@ -118,7 +118,7 @@
             background: #f9f9f9;
         }
 
-        /* Styling the login button */
+        
         #login-btn {
             width: 40%;
             padding: 12px;
@@ -136,7 +136,7 @@
             background: #218838;
         }
 
-        /* Error message styling */
+        
         .error {
             color: red;
             margin-top: 10px;
@@ -162,7 +162,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
-                    window.location.href = "index.html"; // Redirect on success
+                    window.location.href = "index.html"; 
                 } else {
                     document.getElementById("error-msg").innerText = data.message;
                 }
