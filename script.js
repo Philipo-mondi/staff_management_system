@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let countrySelect = document.getElementById("staff-country");
     let languageSelect = document.getElementById("staff-language");
 
-    // Populate country dropdown
+    
     countries.forEach(country => {
         let option = document.createElement("option");
         option.value = country;
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         countrySelect.appendChild(option);
     });
 
-    // Populate language dropdown
+    
     languages.forEach(language => {
         let option = document.createElement("option");
         option.value = language;
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         languageSelect.appendChild(option);
     });
 
-    // Handle form submission
+    
     document.getElementById("staff-form").addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 document.getElementById("login-form").addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent form from refreshing the page
+    e.preventDefault(); 
 
     let formData = new FormData(this);
 
@@ -93,7 +93,7 @@ document.getElementById("login-form").addEventListener("submit", function (e) {
     .then(data => {
         if (data.status === "success") {
             alert("Login successful!");
-            window.location.href = "dashboard.html"; // Redirect to dashboard
+            window.location.href = "dashboard.html"; 
         } else {
             document.getElementById("error-message").innerText = data.message;
         }
@@ -117,29 +117,29 @@ document.getElementById("addStaffForm").addEventListener("submit", function(even
     .then(data => {
         document.getElementById("message").textContent = data.message;
         if (data.status === "success") {
-            loadStaff(); // Refresh the staff list
+            loadStaff(); 
         }
     })
     .catch(error => console.error("Error:", error));
 });
 
 document.getElementById("add-staff-form").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent page reload
+    event.preventDefault(); 
 
-    // Get form data
+    
     let name = document.getElementById("name").value;
     let idNumber = document.getElementById("id_number").value;
     let country = document.getElementById("country").value;
     let languageSpoken = document.getElementById("language_spoken").value;
 
-    // Prepare data to send
+    
     let formData = new FormData();
     formData.append("name", name);
     formData.append("id_number", idNumber);
     formData.append("country", country);
     formData.append("language_spoken", languageSpoken);
 
-    // Send request to the backend
+    
     fetch("http://localhost/staff_management_system/add_staff.php", {
         method: "POST",
         body: formData
@@ -148,7 +148,7 @@ document.getElementById("add-staff-form").addEventListener("submit", function(ev
     .then(data => {
         if (data.status === "success") {
             alert("Staff added successfully!");
-            location.reload(); // Reload page to update staff list
+            location.reload(); 
         } else {
             alert("Error: " + data.message);
         }
