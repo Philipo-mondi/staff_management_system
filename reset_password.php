@@ -1,8 +1,8 @@
 <?php
 include 'db.php';
 
-$username = 'admin';  // Change to the username you want to reset
-$new_password = 'admin123';  // Change to your desired new password
+$username = 'admin';  
+$new_password = 'admin123';  
 
 $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
