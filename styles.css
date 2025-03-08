@@ -91,7 +91,7 @@ th {
 /* Responsive Styling */
 @media (max-width: 768px) {
     section {
-        width: 90%; /* Make sections take up more space on smaller screens */
+        width: 90%; 
     }
 
     form {
@@ -99,7 +99,7 @@ th {
     }
 
     input, select, button {
-        width: 100%; /* Make form elements full width */
+        width: 100%; 
     }
 
     nav {
@@ -126,13 +126,13 @@ th {
     }
 }
 
-/* Further Optimization for Very Small Screens */
+
 @media (max-width: 480px) {
     h1, h2 {
-        font-size: 20px; /* Adjust heading sizes */
+        font-size: 20px; 
     }
 
     button {
-        font-size: 14px; /* Smaller button text */
+        font-size: 14px; 
     }
 }
