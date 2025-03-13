@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#add-staff">Add Staff</a>
+        <a href="#view-staff">View Staff</a>
+    </nav>
+    <section id="home">
+        <h1>Welcome to Staff Management System</h1>
+        <p>Please register staff members using the form below:</p>
+    </section>
+    <section id="add-staff">
+        <h2>Add Staff</h2>
+        <form id="staff-form">
+            <label>name:</label>
+            <input type="text" id="staff-name" placeholder="Enter Name" required>
+            <label>id_sumber:</label>
+            <input type="text" id="staff-id" placeholder="Enter ID Number" required>
+            <label>country:</label>
+            <select id="staff-country">
+                <option>Select country</option>
+            </select>
+
+            <label>language_spoken:</label>
+            <select id="staff-language">
+                <option>Select language</option>
+            </select>
+
+            <button type="submit">Add Staff</button>
+        </form>
+    </section>
+    <section id="view-staff">
+        <h2>View Staff</h2>
+        <button id="view-staff-btn">View Staff</button>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>ID Number</th>
+                    <th>Country</th>
+                    <th>Language Spoken</th>
+                </tr>
+            </thead>
+            <tbody id="staff-list">
+                <!-- Staff records will be displayed here -->
+            </tbody>
+        </table>
+    </section>
+    
+    
+    
+    <script src="script.js"></script>
+    <button id="logout">Logout</button>
+    <style>
+        #logout {
+            width: 120px;
+            padding: 10px;
+            background: #dc3545 !important; 
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            margin-top: 20px; 
+            display: block; 
+            margin-left: 450px;
+        }
+
+        #logout:hover {
+            background: #c82333 !important; 
+        }
+        @media (max-width: 768px){
+     #logout {
+        width: 100%;
+        margin-left: 0;
+        }
+        @media (max-width: 480px) {
+            #logout {
+        font-size: 14px; 
+            }
+        }
+        }
+        
+
+    </style>
+    <script>
+      
+        fetch("http://localhost/staff_management_system/check_session.php")
+        .then(response => response.json())
+        .then(data => {
+            if (!data.loggedIn) {
+                window.location.href = "login.html"; 
+            }
+        });
+
+       
+        document.getElementById("logout").addEventListener("click", function() {
+            fetch("http://localhost/staff_management_system/logout.php")
+            .then(() => window.location.href = "login.html");
+        });
+    </script>
+</body>
+</html>
+
