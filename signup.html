@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Staff Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #28a745, #218838);
+            margin: 0;
+        }
+
+        .signup-form {
+            background: rgb(189, 187, 187);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #28a745;
+            font-size: 26px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        h2::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #28a745;
+            margin: 5px auto 0;
+            border-radius: 2px;
+        }
+
+        input, select {
+            width: 94%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 2px solid #adabab;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #b8b6b6;
+            transition: 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #28a745;
+            box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
+            outline: none;
+        }
+
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding-right: 40px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #555;
+        }
+
+        #signup-btn {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #signup-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .password-strength {
+            font-size: 12px;
+            margin-top: 5px;
+            color: red;
+            display: none;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .redirect {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .redirect a {
+            color: #28a745;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .redirect a:hover {
+            text-decoration: underline;
+        }
+
+        /* ✅ Password border color for strength */
+        .weak-password {
+            border-color: red;
+        }
+
+        .strong-password {
+            border-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-form">
+        <h2>Sign Up</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="email" id="email" placeholder="Email" required>
+
+        <div class="password-container">
+            <input type="password" id="password" placeholder="Password" required>
+            <span class="toggle-password" onclick="togglePassword()">👁</span>
+        </div>
+        <p id="password-strength" class="password-strength"></p>
+
+        <input type="password" id="confirm-password" placeholder="Repeat Password" required>
+
+        <select id="role">
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="staff">Staff</option>
+        </select>
+
+        <button id="signup-btn">Sign Up</button>
+        <p class="error" id="error-msg"></p>
+
+        <p class="redirect">Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+    <script>
+        // ✅ Show/hide password
+        function togglePassword() {
+            let passwordField = document.getElementById("password");
+            passwordField.type = passwordField.type === "password" ? "text" : "password";
+        }
+
+        // ✅ Password strength checker
+        let passwordInput = document.getElementById("password");
+        let passwordStrength = document.getElementById("password-strength");
+
+        passwordInput.addEventListener("input", function() {
+            let password = passwordInput.value;
+            if (password.length === 0) {
+                passwordStrength.style.display = "none";
+                passwordInput.classList.remove("weak-password", "strong-password");
+                return;
+            }
+            
+            if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
+                passwordStrength.textContent = "Weak password";
+                passwordStrength.style.color = "red";
+                passwordInput.classList.add("weak-password");
+                passwordInput.classList.remove("strong-password");
+            } else {
+                passwordStrength.textContent = "Strong password";
+                passwordStrength.style.color = "green";
+                passwordInput.classList.add("strong-password");
+                passwordInput.classList.remove("weak-password");
+            }
+            passwordStrength.style.display = "block";
+        });
+
+        // ✅ Hide password strength when moving to another input
+        passwordInput.addEventListener("blur", function() {
+            passwordStrength.style.display = "none";
+        });
+
+        // ✅ Sign-up logic
+        document.getElementById("signup-btn").addEventListener("click", function() {
+            let username = document.getElementById("username").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let confirmPassword = document.getElementById("confirm-password").value.trim();
+            let role = document.getElementById("role").value;
+            let errorMsg = document.getElementById("error-msg");
+
+            // ✅ Validate username (must contain letters + numbers)
+            if (!/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/.test(username)) {
+                errorMsg.textContent = "Username must contain both letters and numbers.";
+                return;
+            }
+
+            // ✅ Validate password (minimum 8 characters, contains letters, numbers, special characters)
+            if (!/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(password)) {
+                errorMsg.textContent = "Password must be at least 8 characters and contain letters, numbers, and special characters.";
+                return;
+            }
+
+            // ✅ Check if passwords match
+            if (password !== confirmPassword) {
+                errorMsg.textContent = "Passwords do not match.";
+                return;
+            }
+
+            // ✅ Check if role is selected
+            if (role === "") {
+                errorMsg.textContent = "Please select a role.";
+                return;
+            }
+
+            // ✅ Send data to `signup.php`
+            fetch("signup.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password, role })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("Account created successfully!");
+                    window.location.href = "login.html";
+                } else {
+                    errorMsg.textContent = data.message;
+                }
+            })
+            .catch(error => {
+                errorMsg.textContent = "Server error. Try again later.";
+            });
+        });
+    </script>
+</body>
+</html>

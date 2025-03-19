@@ -1,22 +1,33 @@
 <?php
 include 'db.php';
 
-$username = "admin";
-$password = "admin123"; // Default password
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-$role = "admin"; // Assign the role as admin
+// First Admin User
+$username1 = "admin";
+$password1 = "admin123"; // Default password
+$hashed_password1 = password_hash($password1, PASSWORD_DEFAULT);
+$role1 = "admin";
 
-// Insert admin user
+// Second User
+$username2 = "Staff";
+$password2 = "staff123"; // Default password
+$hashed_password2 = password_hash($password2, PASSWORD_DEFAULT);
+$role2 = "staff";
+
+// Insert first admin user
 $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $username, $hashed_password, $role);
+$stmt->bind_param("sss", $username1, $hashed_password1, $role1);
+$stmt->execute();
 
-if ($stmt->execute()) {
-    echo "Admin user created successfully!<br>";
-    echo "Username: admin<br>";
-    echo "Password: admin123<br>";
-    echo "Role: Admin";
+// Insert second staff user
+$stmt->bind_param("sss", $username2, $hashed_password2, $role2);
+$stmt->execute();
+
+if ($stmt) {
+    echo "Users created successfully!<br>";
+    echo "Admin - Username: admin | Password: admin123 | Role: Admin <br>";
+    echo "Staff - Username: staff_user | Password: staff123 | Role: Staff";
 } else {
-    echo "Error creating admin user: " . $conn->error;
+    echo "Error creating users: " . $conn->error;
 }
 
 $stmt->close();

@@ -12,11 +12,11 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #b4b3b3;
             margin: 0;
         }
         .login-container {
-            background: white;
+            background: rgb(204, 203, 203);
             padding: 30px 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -39,7 +39,7 @@
             width: 45%;
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #ddd;
+            border: 1px solid #bdb9b9;
             border-radius: 5px;
             margin-left: 100px;
         }
@@ -73,9 +73,21 @@
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
+        
+        <!-- Role Selection Dropdown -->
+        <select id="role">
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="staff">Staff</option>
+        </select>
+    
         <button id="login-btn">Login</button>
         <p class="error" id="error-msg"></p>
+        
+        <!-- Sign-up link -->
+        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
     </div>
+    
     <style>
                 
        /* General body styling */
@@ -91,7 +103,7 @@ body {
 
 /* Centering the login form */
 .login-form {
-    background: rgb(216, 215, 215);
+    background: rgb(189, 187, 187);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -141,7 +153,46 @@ body {
     box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
     outline: none;
 }
+/* General Dropdown Styling */
+select {
+    width: 100%;
+    max-width: 400px; /* Prevents it from being too wide */
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #adabab;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #f8f9fa;
+    transition: 0.3s ease;
+    appearance: none; /* Removes default dropdown arrow */
+    cursor: pointer;
+    text-align: left;
+}
 
+/* Ensure dropdown expands properly */
+select:focus {
+    border-color: #28a745;
+    box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
+    outline: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    select {
+        width: 90%;
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    select {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px;
+        margin: 10px 0;
+    }
+}
 /* Button styling */
 #login-btn {
     width: 100%;
@@ -222,7 +273,7 @@ body {
 
     </style>
     <script>
-       document.getElementById("login-btn").addEventListener("click", function() {
+      document.getElementById("login-btn").addEventListener("click", function() {
     let username = document.getElementById("username").value.trim();
     let password = document.getElementById("password").value.trim();
 
@@ -241,11 +292,11 @@ body {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Server Response:", data); // Debugging line
+        console.log("Server Response:", data);
+        document.getElementById("error-msg").innerText = data.message;
+        
         if (data.status === "success") {
             window.location.href = "index.html"; 
-        } else {
-            document.getElementById("error-msg").innerText = data.message;
         }
     })
     .catch(error => {
@@ -253,6 +304,7 @@ body {
         document.getElementById("error-msg").innerText = "Server error. Try again later.";
     });
 });
+
 
     </script>
 </body>

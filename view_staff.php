@@ -1,20 +1,16 @@
 <?php
-include 'db.php';
+include "db.php";
 
-// Fetch staff data
-$sql = "SELECT id, name, id_number, country, language_spoken FROM staff";
+header("Content-Type: application/json");
+
+$sql = "SELECT * FROM staff";
 $result = $conn->query($sql);
 
-$staff_data = [];
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $staff_data[] = $row;
-    }
+$staff = [];
+while ($row = $result->fetch_assoc()) {
+    $staff[] = $row;
 }
 
-// Return data as JSON
-echo json_encode($staff_data);
-
+echo json_encode($staff);
 $conn->close();
 ?>
