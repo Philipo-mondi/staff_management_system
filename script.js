@@ -305,4 +305,26 @@ document.getElementById("editStaffForm").addEventListener("submit", function (ev
                 document.getElementById("error-msg").innerText = "Server error. Try again later.";
             });
         });
+        document.addEventListener("DOMContentLoaded", function () {
+            let profileContainer = document.querySelector(".profile-container");
+            
+            // Toggle dropdown when clicking profile icon
+            profileContainer.addEventListener("click", function () {
+                this.classList.toggle("active");
+            });
+        
+            // Close dropdown when clicking outside
+            document.addEventListener("click", function (event) {
+                if (!profileContainer.contains(event.target)) {
+                    profileContainer.classList.remove("active");
+                }
+            });
+        
+            // Logout functionality
+            document.getElementById("nav-logout").addEventListener("click", function (event) {
+                event.preventDefault();
+                fetch("http://localhost/staff_management_system/logout.php")
+                    .then(() => window.location.href = "login.html");
+            });
+        });
         

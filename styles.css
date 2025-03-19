@@ -1,16 +1,22 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    padding-top: 60px;  /* Adjust based on your navbar height */
     background-color: #a09b9b;
 }
 
+/* Navbar Styling */
 nav {
     background-color: #067221;
     padding: 10px;
     text-align: center;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 nav a {
