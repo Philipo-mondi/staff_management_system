@@ -73,13 +73,6 @@
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
-        
-        <!-- Role Selection Dropdown -->
-        <select id="role">
-            <option value="">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="staff">Staff</option>
-        </select>
     
         <button id="login-btn">Login</button>
         <p class="error" id="error-msg"></p>
@@ -153,46 +146,7 @@ body {
     box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
     outline: none;
 }
-/* General Dropdown Styling */
-select {
-    width: 100%;
-    max-width: 400px; /* Prevents it from being too wide */
-    padding: 12px;
-    margin: 12px 0;
-    border: 1px solid #adabab;
-    border-radius: 8px;
-    font-size: 16px;
-    background: #f8f9fa;
-    transition: 0.3s ease;
-    appearance: none; /* Removes default dropdown arrow */
-    cursor: pointer;
-    text-align: left;
-}
 
-/* Ensure dropdown expands properly */
-select:focus {
-    border-color: #28a745;
-    box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
-    outline: none;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    select {
-        width: 90%;
-        font-size: 14px;
-        padding: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    select {
-        width: 100%;
-        font-size: 14px;
-        padding: 8px;
-        margin: 10px 0;
-    }
-}
 /* Button styling */
 #login-btn {
     width: 100%;
