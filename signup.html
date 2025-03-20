@@ -153,7 +153,7 @@
         <p id="password-strength" class="password-strength"></p>
 
         <input type="password" id="confirm-password" placeholder="Repeat Password" required>
-
+        <span class="toggle-password" onclick="togglePassword()">👁</span>
         <select id="role">
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
@@ -167,95 +167,149 @@
     </div>
 
     <script>
-        // ✅ Show/hide password
-        function togglePassword() {
-            let passwordField = document.getElementById("password");
-            passwordField.type = passwordField.type === "password" ? "text" : "password";
-        }
+        // ✅ Prevent Copy, Cut, Paste in Input Fields
+function preventCopyCutPaste(inputField) {
+    inputField.addEventListener("paste", function (e) {
+        e.preventDefault();
+        alert("Couldn't paste! Please type.");
+    });
 
-        // ✅ Password strength checker
-        let passwordInput = document.getElementById("password");
-        let passwordStrength = document.getElementById("password-strength");
+    inputField.addEventListener("copy", function (e) {
+        e.preventDefault();
+        alert("Couldn't copy.");
+    });
 
-        passwordInput.addEventListener("input", function() {
-            let password = passwordInput.value;
-            if (password.length === 0) {
-                passwordStrength.style.display = "none";
-                passwordInput.classList.remove("weak-password", "strong-password");
-                return;
-            }
-            
-            if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
-                passwordStrength.textContent = "Weak password";
-                passwordStrength.style.color = "red";
-                passwordInput.classList.add("weak-password");
-                passwordInput.classList.remove("strong-password");
+    inputField.addEventListener("cut", function (e) {
+        e.preventDefault();
+        alert("Couldn't cut.");
+    });
+}
+
+// Apply restrictions to all fields
+let usernameInput = document.getElementById("username");
+let emailInput = document.getElementById("email");
+let passwordInput = document.getElementById("password");
+let confirmPasswordInput = document.getElementById("confirm-password");
+
+preventCopyCutPaste(usernameInput);
+preventCopyCutPaste(emailInput);
+preventCopyCutPaste(passwordInput);
+preventCopyCutPaste(confirmPasswordInput);
+
+// ✅ Show/Hide Password
+function togglePassword() {
+    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+}
+
+// ✅ Password Strength Checker
+let passwordStrength = document.getElementById("password-strength");
+
+passwordInput.addEventListener("input", function () {
+    let password = passwordInput.value;
+    
+    if (password.length === 0) {
+        passwordStrength.style.display = "none";
+        passwordInput.classList.remove("weak-password", "strong-password");
+        return;
+    }
+    
+    if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
+        passwordStrength.textContent = "Weak password";
+        passwordStrength.style.color = "red";
+        passwordInput.classList.add("weak-password");
+        passwordInput.classList.remove("strong-password");
+    } else {
+        passwordStrength.textContent = "Strong password";
+        passwordStrength.style.color = "green";
+        passwordInput.classList.add("strong-password");
+        passwordInput.classList.remove("weak-password");
+    }
+    passwordStrength.style.display = "block";
+});
+
+// Hide password strength when moving to another input
+passwordInput.addEventListener("blur", function () {
+    passwordStrength.style.display = "none";
+});
+
+// ✅ Live Email Validation (Red → Green Border)
+emailInput.addEventListener("input", function () {
+    let email = emailInput.value;
+    if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/.test(email)) {
+        emailInput.style.borderColor = "green";
+    } else {
+        emailInput.style.borderColor = "red";
+    }
+});
+
+// Reset email border color when input is empty
+emailInput.addEventListener("blur", function () {
+    if (emailInput.value === "") {
+        emailInput.style.borderColor = ""; // Reset to default
+    }
+});
+
+// ✅ Sign-up Logic
+document.getElementById("signup-btn").addEventListener("click", function () {
+    let username = usernameInput.value.trim();
+    let email = emailInput.value.trim();
+    let password = passwordInput.value.trim();
+    let confirmPassword = confirmPasswordInput.value.trim();
+    let role = document.getElementById("role").value;
+    let errorMsg = document.getElementById("error-msg");
+
+    // ✅ Validate Email (must end with .com)
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/.test(email)) {
+        errorMsg.textContent = "Email must end with .com (e.g., example@gmail.com)";
+        emailInput.style.borderColor = "red"; // Keep border red on error
+        return;
+    }
+
+    // ✅ Validate Username (must contain letters + numbers)
+    if (!/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/.test(username)) {
+        errorMsg.textContent = "Username must contain both letters and numbers.";
+        return;
+    }
+
+    // ✅ Validate Password (Minimum 8 characters, contains letters, numbers, special characters)
+    if (!/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(password)) {
+        errorMsg.textContent = "Password must be at least 8 characters and contain letters, numbers, and special characters.";
+        return;
+    }
+
+    // ✅ Check if Passwords Match
+    if (password !== confirmPassword) {
+        errorMsg.textContent = "Passwords do not match.";
+        return;
+    }
+
+    // ✅ Check if Role is Selected
+    if (role === "") {
+        errorMsg.textContent = "Please select a role.";
+        return;
+    }
+
+    // ✅ Send Data to `signup.php`
+    fetch("signup.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password, role })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert("Account created successfully!");
+                window.location.href = "login.html";
             } else {
-                passwordStrength.textContent = "Strong password";
-                passwordStrength.style.color = "green";
-                passwordInput.classList.add("strong-password");
-                passwordInput.classList.remove("weak-password");
+                errorMsg.textContent = data.message;
             }
-            passwordStrength.style.display = "block";
+        })
+        .catch(error => {
+            errorMsg.textContent = "Server error. Try again later.";
         });
+});
 
-        // ✅ Hide password strength when moving to another input
-        passwordInput.addEventListener("blur", function() {
-            passwordStrength.style.display = "none";
-        });
 
-        // ✅ Sign-up logic
-        document.getElementById("signup-btn").addEventListener("click", function() {
-            let username = document.getElementById("username").value.trim();
-            let email = document.getElementById("email").value.trim();
-            let password = document.getElementById("password").value.trim();
-            let confirmPassword = document.getElementById("confirm-password").value.trim();
-            let role = document.getElementById("role").value;
-            let errorMsg = document.getElementById("error-msg");
-
-            // ✅ Validate username (must contain letters + numbers)
-            if (!/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/.test(username)) {
-                errorMsg.textContent = "Username must contain both letters and numbers.";
-                return;
-            }
-
-            // ✅ Validate password (minimum 8 characters, contains letters, numbers, special characters)
-            if (!/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(password)) {
-                errorMsg.textContent = "Password must be at least 8 characters and contain letters, numbers, and special characters.";
-                return;
-            }
-
-            // ✅ Check if passwords match
-            if (password !== confirmPassword) {
-                errorMsg.textContent = "Passwords do not match.";
-                return;
-            }
-
-            // ✅ Check if role is selected
-            if (role === "") {
-                errorMsg.textContent = "Please select a role.";
-                return;
-            }
-
-            // ✅ Send data to `signup.php`
-            fetch("signup.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, email, password, role })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    alert("Account created successfully!");
-                    window.location.href = "login.html";
-                } else {
-                    errorMsg.textContent = data.message;
-                }
-            })
-            .catch(error => {
-                errorMsg.textContent = "Server error. Try again later.";
-            });
-        });
     </script>
 </body>
 </html>

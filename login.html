@@ -71,9 +71,11 @@
 <body>
     <div class="login-form">
         <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-    
+        <input type="text" id="username" placeholder="Username" required>
+        <div class="password-container">
+            <input type="password" id="password" placeholder="Password" required>
+            <span class="toggle-password" onclick="togglePassword()">👁</span>
+        </div>
         <button id="login-btn">Login</button>
         <p class="error" id="error-msg"></p>
         <p><a href="forgot_password.html">Forgot Password?</a></p>
@@ -146,6 +148,33 @@ body {
     border-color: #28a745;
     box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
     outline: none;
+}
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 12px 0;
+}
+
+#password {
+    width: 355px;
+    padding: 12px;
+    border: 2px solid #0d9414;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #b8b6b6;
+    transition: 0.3s ease;
+    padding-right: 40px; /* Space for the eye icon */
+    
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: gray;
+    font-size: 18px;
 }
 
 /* Button styling */
@@ -228,9 +257,40 @@ body {
 
     </style>
     <script>
-      document.getElementById("login-btn").addEventListener("click", function() {
-    let username = document.getElementById("username").value.trim();
-    let password = document.getElementById("password").value.trim();
+      // ✅ Prevent Copy, Cut, and Paste in Input Fields
+function preventCopyCutPaste(inputField) {
+    inputField.addEventListener("paste", function (e) {
+        e.preventDefault();
+        alert("Pasting is not allowed. Please type manually.");
+    });
+
+    inputField.addEventListener("copy", function (e) {
+        e.preventDefault();
+        alert("Copying is not allowed.");
+    });
+
+    inputField.addEventListener("cut", function (e) {
+        e.preventDefault();
+        alert("Cutting is not allowed.");
+    });
+}
+
+// Apply restrictions to login fields
+let usernameInput = document.getElementById("username");
+let passwordInput = document.getElementById("password");
+
+preventCopyCutPaste(usernameInput);
+preventCopyCutPaste(passwordInput);
+
+function togglePassword() {
+    let passwordInput = document.getElementById("password");
+    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+}
+
+// ✅ Login Logic
+document.getElementById("login-btn").addEventListener("click", function () {
+    let username = usernameInput.value.trim();
+    let password = passwordInput.value.trim();
 
     if (username === "" || password === "") {
         document.getElementById("error-msg").innerText = "Please fill in all fields.";
