@@ -45,42 +45,85 @@
             border-radius: 2px;
         }
 
-        input, select {
-            width: 94%;
-            padding: 12px;
-            margin: 12px 0;
-            border: 2px solid #adabab;
-            border-radius: 8px;
-            font-size: 16px;
-            background: #b8b6b6;
-            transition: 0.3s ease;
-        }
+       /* General Input & Select Styles */
+input, select {
+    width: 100%; /* Full width for responsiveness */
+    max-width: 325px; /* Prevents excessive stretching */
+    padding: 12px;
+    margin: 12px auto; /* Centers input fields */
+    border: 2px solid #adabab;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #b8b6b6;
+    transition: border-color 0.3s ease;
+    display: block; /* Ensures uniform display */
+    box-sizing: border-box; /* Ensures width includes padding */
+    outline: none; /* Removes default focus outline */
+}
 
-        input:focus, select:focus {
-            border-color: #28a745;
-            box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
-            outline: none;
-        }
+/* Green border on hover & focus */
+input:hover, select:hover,
+input:focus, select:focus {
+    border-color: #28a745;
+    box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
+}
 
-        .password-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
+/* Password input container */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 325px; /* Matches all input fields */
+    margin: 12px auto;
+}
 
-        .password-container input {
-            width: 100%;
-            padding-right: 40px;
-        }
+/* Password fields (same size) */
+.password-container input {
+    width: 100%;
+    max-width: 325px;
+    padding: 12px;
+    padding-right: 40px; /* Space for the eye icon */
+    border: 2px solid #abadab;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #b6b8b7;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
 
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            cursor: pointer;
-            font-size: 18px;
-            color: #555;
-        }
+/* Green border on hover & focus for password fields */
+.password-container input:hover,
+.password-container input:focus {
+    border-color: #28a745 !important;
+}
+
+/* Eye icon styling */
+.toggle-password {
+    position: absolute;
+    right: 15px; /* Keeps eye icon aligned */
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+}
+
+/* Responsive Fixes */
+@media (max-width: 425px) {
+    input, select, .password-container {
+        max-width: 100%; /* Adjust width for small screens */
+    }
+
+    .toggle-password {
+        right: 10px; /* Keeps eye icon properly placed */
+    }
+}
+
+@media (max-width: 375px) {
+    .toggle-password {
+        right: 8px; /* Ensures correct placement on very small screens */
+    }
+}
+
 
         #signup-btn {
             width: 100%;
@@ -153,7 +196,6 @@
         <p id="password-strength" class="password-strength"></p>
 
         <input type="password" id="confirm-password" placeholder="Repeat Password" required>
-        <span class="toggle-password" onclick="togglePassword()">👁</span>
         <select id="role">
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
