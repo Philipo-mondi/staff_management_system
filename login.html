@@ -6,357 +6,229 @@
     <title>Staff Login</title>
     <link rel="stylesheet" href="styles.css"> 
     <style>
+        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #b4b3b3;
+            background: linear-gradient(to right, #28a745, #218838);
             margin: 0;
         }
-        .login-container {
-            background: rgb(204, 203, 203);
-            padding: 30px 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 350px; 
+
+        /* Login Form */
+        .login-form {
+            background: rgb(189, 187, 187);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; 
+            animation: fadeIn 0.5s ease-in-out;
+            box-shadow: 0px 0px 10px rgba(194, 196, 196, 0.829);
         }
 
-
-        h2 {
-            margin-bottom: 20px;
+        /* Title */
+        .login-form h2 {
             color: #28a745;
-            margin-left: 240px;
+            font-size: 26px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
         }
 
-        input {
-            width: 45%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #bdb9b9;
-            border-radius: 5px;
-            margin-left: 100px;
-        }
-
-        button {
-            width: 30%;
-            padding: 12px;
+        .login-form h2::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
             background: #28a745;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 15px;
-            margin-left: 160px;
+            margin: 5px auto 0;
+            border-radius: 2px;
         }
 
-        button:hover {
+        /* Input Fields */
+        .login-form input {
+            width: 100%;
+            max-width: 325px;
+            padding: 12px;
+            margin: 12px auto;
+            border: 1px solid #abadab;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #b6b8b7;
+            transition: border-color 0.3s ease;
+            display: block;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .login-form input:hover,
+        .login-form input:focus {
+            border-color: #28a745;
+        }
+
+        /* Password Input + Eye Icon */
+        .password-container {
+            position: relative;
+            width: 100%;
+            max-width: 325px;
+            margin: 12px auto;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: gray;
+        }
+
+        /* Login Button */
+        .login-button {
+            width: 100%;
+            max-width: 325px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-align: center;
+            display: block;
+            margin: 12px auto;
+        }
+
+        .login-button:hover {
             background: #218838;
         }
 
+        .login-button:active {
+            background: #1e7e34;
+        }
+
+        /* Error Message */
         .error {
             color: red;
+            font-size: 14px;
             margin-top: 10px;
         }
 
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .login-form {
+                width: 80%;
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-form {
+                width: 100%;
+                max-width: 320px;
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="login-form">
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Username" required>
+
+        <!-- Password Field with Eye Icon -->
         <div class="password-container">
             <input type="password" id="password" placeholder="Password" required>
             <span class="toggle-password" onclick="togglePassword()">👁</span>
         </div>
-        <div class="button-container">
-            <button class="login-button" id="login-button">Login</button>
 
+        <button class="login-button" id="login-button">Login</button>
+
+        <!-- Error Message -->
+        <p id="error-msg" class="error"></p>
+
+        <div class="password-options">
+            <p><a href="forgot_password.html">Forgot Password?</a></p>
+            <p><a href="change_password.html">Change Password</a></p>
         </div>
-        
-        <p class="error" id="error-msg"></p>
-        <p><a href="forgot_password.html">Forgot Password?</a></p>
 
-        <!-- Sign-up link -->
         <p>Don't have an account? <a href="signup.html">Sign up</a></p>
     </div>
-    
-    <style>
-                
-       /* General body styling */
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(to right, #28a745, #218838);
-    margin: 0;
-}
 
-/* Centering the login form */
-.login-form {
-    background: rgb(189, 187, 187);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    width: 350px;
-    text-align: center;
-}
-
-/* Styling the login title */
-.login-form h2 {
-    margin-bottom: 20px;
-    color: #28a745;
-    font-size: 26px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    margin-left: 10px;
-}
-
-/* Underline effect for Login title */
-.login-form h2::after {
-    content: "";
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: #28a745;
-    margin: 5px auto 0;
-    border-radius: 2px;
-}
-
-/* Input fields (Username & Password) */
-.login-form input,
-#password {
-    width: 100%; /* Ensures responsiveness */
-    max-width: 325px; /* Keeps both inputs the same length */
-    padding: 12px;
-    margin: 12px auto; /* Centers the input fields */
-    border: 1px solid #abadab;
-    border-radius: 8px;
-    font-size: 16px;
-    background: #b6b8b7;
-    transition: border-color 0.3s ease; /* Smooth transition */
-    display: block; /* Ensures uniform behavior */
-    box-sizing: border-box; /* Ensures width includes padding */
-    outline: none; /* Removes default focus outline */
-}
-
-/* Green border on hover & when clicked */
-.login-form input:hover,
-.login-form input:focus,
-#password:hover,
-#password:focus {
-    border-color: #28a745 !important; /* Keeps it green on hover & click */
-}
-
-/* Password input container */
-.password-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centers the password field */
-    width: 100%;
-    max-width: 325px; /* Matches input width */
-    margin: 12px auto;
-}
-
-/* Style for the eye icon */
-.toggle-password {
-    position: absolute;
-    right: 12px; /* Ensures correct placement */
-    cursor: pointer;
-    color: gray;
-    font-size: 18px;
-}
-
-/* Media queries for smaller screens */
-@media (max-width: 425px) {
-    .login-form input,
-    .password-container {
-        max-width: 100%; /* Allows inputs to adjust for small screens */
-    }
-
-    .toggle-password {
-        right: 10px; /* Adjusts icon placement */
-    }
-}
-
-@media (max-width: 375px) {
-    .toggle-password {
-        right: 8px; /* Ensures proper positioning on small screens */
-    }
-}
-
-/* ✅ Centered & Responsive Login Button */
-.login-button {
-    width: 100%; /* Full width for responsiveness */
-    max-width: 325px; /* Prevents excessive stretching */
-    padding: 12px;
-    margin: 12px auto; /* Centers the button horizontally */
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    background: #28a745;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    display: block; /* Ensures proper alignment */
-    text-align: center;
-}
-
-/* ✅ Centering Button Inside Parent Container */
-.button-container {
-    display: flex;
-    justify-content: center;
-    width: 100%; /* Ensures the button container spans the full width */
-}
-
-/* Hover & Active Effects */
-.login-button:hover {
-    background: #218838;
-}
-
-.login-button:active {
-    background: #1e7e34;
-}
-
-/* ✅ Responsive Fixes */
-@media (max-width: 768px), 
-       (max-width: 480px), 
-       (max-width: 425px), 
-       (max-width: 375px) {
-    .login-button {
-        max-width: 100%; /* Ensures it remains centered and responsive */
-    }
-}
-
-
-/* Error message styling */
-.error {
-    color: red;
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-/* Adding a subtle animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.login-form {
-    animation: fadeIn 0.5s ease-in-out;
-}
-/* ========== RESPONSIVE DESIGN ========== */
-
-/* For tablets and smaller laptops */
-@media (max-width: 768px) {
-    .login-form {
-        width: 80%;
-        padding: 25px;
-    }
-
-    .login-form h2 {
-        font-size: 22px;
-    }
-}
-
-/* For mobile screens */
-@media (max-width: 480px) {
-    .login-form {
-        width: 100%;
-        max-width: 320px;
-        padding: 20px;
-    }
-
-    .login-form h2 {
-        font-size: 20px;
-    }
-}
-
-    </style>
     <script>
-      // ✅ Prevent Copy, Cut, and Paste in Input Fields
-function preventCopyCutPaste(inputField) {
-    inputField.addEventListener("paste", function (e) {
-        e.preventDefault();
-        alert("Pasting is not allowed. Please type manually.");
-    });
-
-    inputField.addEventListener("copy", function (e) {
-        e.preventDefault();
-        alert("Copying is not allowed.");
-    });
-
-    inputField.addEventListener("cut", function (e) {
-        e.preventDefault();
-        alert("Cutting is not allowed.");
-    });
-}
-
-// Apply restrictions to login fields
-let usernameInput = document.getElementById("username");
-let passwordInput = document.getElementById("password");
-
-preventCopyCutPaste(usernameInput);
-preventCopyCutPaste(passwordInput);
-
-function togglePassword() {
-    let passwordInput = document.getElementById("password");
-    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-}
-
-// ✅ Login Logic
-document.getElementById("login-button").addEventListener("click", function () {
-    let username = usernameInput.value.trim();
-    let password = passwordInput.value.trim();
-
-    if (username === "" || password === "") {
-        document.getElementById("error-msg").innerText = "Please fill in all fields.";
-        return;
-    }
-
-    fetch("http://localhost/staff_management_system/login.php", {
-        method: "POST",
-        headers: { 
-            "Accept": "application/json", 
-            "Content-Type": "application/json" 
-        },
-        body: JSON.stringify({ username: username, password: password })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Server Response:", data);
-        document.getElementById("error-msg").innerText = data.message;
-        
-        if (data.status === "success") {
-            window.location.href = "index.html"; 
+        // ✅ Toggle Password Visibility
+        function togglePassword() {
+            let passwordInput = document.getElementById("password");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
         }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error);
-        document.getElementById("error-msg").innerText = "Server error. Try again later.";
-    });
-});
 
+        document.addEventListener("DOMContentLoaded", function () { 
+            let usernameInput = document.getElementById("username");
+            let passwordInput = document.getElementById("password");
+            let loginButton = document.getElementById("login-button");
+            let errorMsg = document.getElementById("error-msg");
 
+            // ✅ Prevent Copy, Cut, and Paste in Input Fields
+            function preventCopyCutPaste(inputField) {
+                inputField.addEventListener("paste", (e) => e.preventDefault());
+                inputField.addEventListener("copy", (e) => e.preventDefault());
+                inputField.addEventListener("cut", (e) => e.preventDefault());
+            }
+
+            preventCopyCutPaste(usernameInput);
+            preventCopyCutPaste(passwordInput);
+
+            // ✅ Login Function
+            function login() {
+                let username = usernameInput.value.trim();
+                let password = passwordInput.value.trim();
+
+                if (username === "" || password === "") {
+                    errorMsg.innerText = "Please fill in all fields.";
+                    return;
+                }
+
+                fetch("http://localhost/staff_management_system/login.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: username, password: password })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Server Response:", data);
+                    errorMsg.innerText = data.message;
+
+                    if (data.status === "success") {
+                        window.location.href = "index.html"; 
+                    }
+                })
+                .catch(error => {
+                    console.error("Fetch error:", error);
+                    errorMsg.innerText = "Server error. Try again later.";
+                });
+            }
+
+            // ✅ Add Event Listeners
+            if (loginButton) {
+                loginButton.addEventListener("click", login);
+            } else {
+                console.error("Login button not found!");
+            }
+
+            // ✅ Allow Enter Key to Trigger Login
+            document.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    login();
+                }
+            });
+        });
     </script>
 </body>
 </html>

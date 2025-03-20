@@ -8,9 +8,18 @@ if ($conn->connect_error) {
     exit();
 }
 
-// Get username from request
-$username = $_POST["username"];
+// Read JSON input
+$data = json_decode(file_get_contents("php://input"), true);
 
+// Debugging: Check if data is received correctly
+if (!$data) {
+    echo json_encode(["status" => "error", "message" => "No data received."]);
+    exit();
+}
+
+$username = isset($data["username"]) ? trim($data["username"]) : "";
+
+// Debugging: Check if username is received
 if (empty($username)) {
     echo json_encode(["status" => "error", "message" => "Username is required."]);
     exit();
@@ -27,8 +36,13 @@ if ($result->num_rows === 0) {
     exit();
 }
 
-// Generate a new default password
-$new_password = "staff123";  // You can generate random passwords
+// Generate new password
+function generateRandomPassword($length = 12) {
+    $characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+    return substr(str_shuffle($characters), 0, $length);
+}
+
+$new_password = generateRandomPassword(12);
 $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
 // Update password in database
@@ -40,4 +54,8 @@ if ($update_stmt->execute()) {
 } else {
     echo json_encode(["status" => "error", "message" => "Password reset failed."]);
 }
+
+$stmt->close();
+$update_stmt->close();
+$conn->close();
 ?>
